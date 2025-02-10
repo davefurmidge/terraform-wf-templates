@@ -16,7 +16,8 @@ jobs:
       - name: Debug Workspace
         run: |
           echo "Current working directory: $(pwd)"
-          ls -la ${{ github.workspace }}
+          echo "Expected Terraform Path: ${{ inputs.terraform_workspace_path }}"
+          ls -la ${{ inputs.terraform_workspace_path }}
 
       - name: Terraform fmt
         uses: dflook/terraform-fmt-check@v1.46.1
