@@ -29,7 +29,7 @@ on:
         required: true
 
 jobs:
-  terraform-apply:
+  terraform-destroy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.use_environment == 'true' && inputs.environment || '' }}
     env:
@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Terraform Apply
+      - name: Terraform Destroy
         uses: dflook/terraform-destroy@v1.46.1
         with:
           path: ${{ inputs.terraform_workspace_path }}
