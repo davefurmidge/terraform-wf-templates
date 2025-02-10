@@ -1,0 +1,47 @@
+name: Terraform Destroy
+on:
+  workflow_call:
+    inputs:
+      use_environment:
+        required: false
+        type: string
+        default: "false"
+      environment:
+        required: false
+        type: string
+      terraform_workspace_path:
+        required: true
+        type: string
+      var_file:
+        required: true
+        type: string
+      backend_key:
+        required: true
+        type: string  # Only the key is passed, NOT the full backend_config string
+    secrets:
+      BACKEND_CONFIG:
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_CLIENT_ID:
+        required: true
+      ARM_TENANT_ID:
+        required: true
+
+jobs:
+  terraform-apply:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.use_environment == 'true' && inputs.environment || '' }}
+    env:
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Terraform Apply
+        uses: dflook/terraform-destroy@v1.46.1
+        with:
+          path: ${{ inputs.terraform_workspace_path }}
+          var_file: ${{ inputs.var_file }}
+          backend_config: "key=${{ inputs.backend_key }},${{ secrets.BACKEND_CONFIG }}"
