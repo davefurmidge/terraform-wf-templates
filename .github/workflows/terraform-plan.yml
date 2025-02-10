@@ -1,0 +1,35 @@
+name: Terraform Plan
+on:
+  workflow_call:
+    inputs:
+      terraform_workspace_path:
+        required: true
+        type: string
+      var_file:
+        required: true
+        type: string
+      backend_config:
+        required: true
+        type: string
+    secrets:
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_CLIENT_ID:
+        required: true
+      ARM_TENANT_ID:
+        required: true
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Terraform Plan
+        uses: dflook/terraform-plan@v1.46.1
+        with:
+          add_github_comment: changes-only
+          path: ${{ inputs.terraform_workspace_path }}
+          var_file: ${{ inputs.var_file }}
+          backend_config: ${{ inputs.backend_config }}
