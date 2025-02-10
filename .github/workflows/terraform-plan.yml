@@ -31,11 +31,6 @@ jobs:
     steps:
       - name: Checkout Repository  # ✅ Checkout must happen inside the reusable workflow
         uses: actions/checkout@v4
-      - name: Debug Environment Variables
-        run: |
-          echo "ARM_SUBSCRIPTION_ID is set: ${ARM_SUBSCRIPTION_ID}"
-          echo "ARM_CLIENT_ID is set: ${ARM_CLIENT_ID}"
-          echo "ARM_TENANT_ID is set: ${ARM_TENANT_ID}"
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1.46.1
         with:
