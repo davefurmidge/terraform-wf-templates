@@ -1,0 +1,24 @@
+name: Terraform Linting
+on:
+  workflow_call:
+    inputs:
+      terraform_workspace_path:
+        required: true
+        type: string
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Terraform fmt
+        uses: dflook/terraform-fmt-check@v1.46.1
+        with:
+          path: ${{ inputs.terraform_workspace_path }}
+
+      - name: Terraform validate
+        uses: dflook/terraform-validate@v1.46.1
+        with:
+          path: ${{ inputs.terraform_workspace_path }}
