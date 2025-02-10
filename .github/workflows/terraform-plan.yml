@@ -24,6 +24,10 @@ on:
 jobs:
   plan:
     runs-on: ubuntu-latest
+    env:
+        ARM_SUBSCRIPTION_ID: ${{ inputs.ARM_SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ inputs.ARM_CLIENT_ID }}
+        ARM_TENANT_ID: ${{ inputs.ARM_TENANT_ID }}
     steps:
       - name: Checkout Repository  # ✅ Checkout must happen inside the reusable workflow
         uses: actions/checkout@v4
