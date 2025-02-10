@@ -29,7 +29,7 @@ on:
         required: true
 
 jobs:
-  plan:
+  terraform-plan:
     runs-on: ubuntu-latest
     environment: ${{ inputs.use_environment == 'true' && inputs.environment || '' }}
     env:
@@ -39,16 +39,6 @@ jobs:
     steps:
       - name: Checkout Repository 
         uses: actions/checkout@v4
-      - name: Debug Inputs and Environment
-        run: |
-          echo "Environment: ${{ inputs.environment }}"
-          echo "Using Environment Secrets: ${{ inputs.use_environment }}"
-          echo "Terraform Workspace Path: ${{ inputs.terraform_workspace_path }}"
-          echo "Var File: ${{ inputs.var_file }}"
-          echo "Backend Key: ${{ inputs.backend_key }}"
-          echo "ARM_SUBSCRIPTION_ID is set: ${ARM_SUBSCRIPTION_ID}"
-          echo "ARM_CLIENT_ID is set: ${ARM_CLIENT_ID}"
-          echo "ARM_TENANT_ID is set: ${ARM_TENANT_ID}"  
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1.46.1
         with:
