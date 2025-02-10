@@ -7,16 +7,15 @@ on:
         type: string
 
 jobs:
-  lint:
+  terraform-fmt-validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository  # ✅ Checkout must happen inside the reusable workflow
+      - name: Checkout Repository 
         uses: actions/checkout@v4
       - name: Terraform fmt
         uses: dflook/terraform-fmt-check@v1.46.1
         with:
           path: ${{ inputs.terraform_workspace_path }}
-
       - name: Terraform validate
         uses: dflook/terraform-validate@v1.46.1
         with:
