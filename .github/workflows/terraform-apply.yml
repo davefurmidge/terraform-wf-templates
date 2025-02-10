@@ -2,16 +2,25 @@ name: Terraform Apply
 on:
   workflow_call:
     inputs:
+     use_environment:
+        required: false
+        type: string
+        default: "false"
+      environment:
+        required: false
+        type: string
       terraform_workspace_path:
         required: true
         type: string
       var_file:
         required: true
         type: string
-      backend_config:
+      backend_key:
         required: true
-        type: string
+        type: string  # Only the key is passed, NOT the full backend_config string
     secrets:
+      BACKEND_CONFIG:
+        required: true
       ARM_SUBSCRIPTION_ID:
         required: true
       ARM_CLIENT_ID:
@@ -20,12 +29,11 @@ on:
         required: true
 
 jobs:
-  apply:
+  terraform-apply:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Terraform Apply
         uses: dflook/terraform-apply@v1.46.1
         with:
