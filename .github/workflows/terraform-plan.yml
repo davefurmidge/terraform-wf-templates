@@ -25,12 +25,17 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     env:
-        ARM_SUBSCRIPTION_ID: ${{ inputs.ARM_SUBSCRIPTION_ID }}
-        ARM_CLIENT_ID: ${{ inputs.ARM_CLIENT_ID }}
-        ARM_TENANT_ID: ${{ inputs.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
     steps:
       - name: Checkout Repository  # ✅ Checkout must happen inside the reusable workflow
         uses: actions/checkout@v4
+      - name: Debug Environment Variables
+        run: |
+          echo "ARM_SUBSCRIPTION_ID is set: ${ARM_SUBSCRIPTION_ID}"
+          echo "ARM_CLIENT_ID is set: ${ARM_CLIENT_ID}"
+          echo "ARM_TENANT_ID is set: ${ARM_TENANT_ID}"
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1.46.1
         with:
