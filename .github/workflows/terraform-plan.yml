@@ -25,6 +25,8 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository  # ✅ Checkout must happen inside the reusable workflow
+        uses: actions/checkout@v4
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1.46.1
         with:
