@@ -13,6 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug Workspace
+        run: |
+          echo "Current working directory: $(pwd)"
+          ls -la ${{ github.workspace }}
+
       - name: Terraform fmt
         uses: dflook/terraform-fmt-check@v1.46.1
         with:
