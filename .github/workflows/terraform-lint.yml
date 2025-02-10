@@ -10,15 +10,6 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Debug Workspace
-        run: |
-          echo "Current working directory: $(pwd)"
-          echo "Expected Terraform Path: ${{ inputs.terraform_workspace_path }}"
-          ls -la ${{ inputs.terraform_workspace_path }}
-
       - name: Terraform fmt
         uses: dflook/terraform-fmt-check@v1.46.1
         with:
