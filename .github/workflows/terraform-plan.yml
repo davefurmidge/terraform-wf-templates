@@ -27,6 +27,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Debug Workspace
+        run: |
+          echo "Current working directory: $(pwd)"
+          ls -la ${{ github.workspace }}
 
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1.46.1
