@@ -29,7 +29,7 @@ jobs:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
     steps:
-      - name: Checkout Repository  # ✅ Checkout must happen inside the reusable workflow
+      - name: Checkout Repository 
         uses: actions/checkout@v4
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1.46.1
