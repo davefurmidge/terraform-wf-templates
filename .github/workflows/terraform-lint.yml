@@ -5,6 +5,7 @@ on:
       terraform_workspace_path:
         required: true
         type: string
+        default: "."  # Set a default value
 
 jobs:
   terraform-fmt-validate:
