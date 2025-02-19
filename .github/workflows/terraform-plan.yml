@@ -18,14 +18,18 @@ on:
       backend_key:
         required: true
         type: string  # Only the key is passed, NOT the full backend_config string
+      use_oidc:
+        required: false
+        type: boolean
+        default: true
     secrets:
       BACKEND_CONFIG:
         required: true
-      SUBSCRIPTION_ID:
+      ARM_SUBSCRIPTION_ID:
         required: true
-      CLIENT_ID:
+      ARM_CLIENT_ID:
         required: true
-      TENANT_ID:
+      ARM_TENANT_ID:
         required: true
 
 jobs:
@@ -33,9 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.use_environment == 'true' && inputs.environment || '' }}
     env:
-        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-        ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_USE_OIDC: ${{ inputs.use_oidc }}
     steps:
       - name: Checkout Repository 
         uses: actions/checkout@v4
@@ -47,12 +52,12 @@ jobs:
           client-id: ${{ env.ARM_CLIENT_ID  }}
           tenant-id: ${{ env.ARM_TENANT_ID }}
           subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}   
-      - name: Set Azure Environment Variables for Terraform
-        run: |
-          echo "ARM_USE_OIDC=true" >> $GITHUB_ENV
-          echo "ARM_CLIENT_ID=${{ env.ARM_CLIENT_ID  }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ env.ARM_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ env.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+      # - name: Set Azure Environment Variables for Terraform
+      #   run: |
+      #     echo "ARM_USE_OIDC=true" >> $GITHUB_ENV
+      #     echo "ARM_CLIENT_ID=${{ env.ARM_CLIENT_ID  }}" >> $GITHUB_ENV
+      #     echo "ARM_TENANT_ID=${{ env.ARM_TENANT_ID }}" >> $GITHUB_ENV
+      #     echo "ARM_SUBSCRIPTION_ID=${{ env.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
     
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1.46.1
