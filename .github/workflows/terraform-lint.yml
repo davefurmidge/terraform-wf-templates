@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository 
         uses: actions/checkout@v4
+      - name: Debug terraform_workspace_path
+        run: echo "Path is ${{ inputs.terraform_workspace_path }}"
       - name: Terraform fmt
         uses: dflook/terraform-fmt-check@v1.46.1
         with:
