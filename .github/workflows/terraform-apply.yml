@@ -18,6 +18,10 @@ on:
       backend_key:
         required: true
         type: string  # Only the key is passed, NOT the full backend_config string
+      use_oidc:
+        required: false
+        type: boolean
+        default: true  
     secrets:
       BACKEND_CONFIG:
         required: true
@@ -36,6 +40,7 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_USE_OIDC : ${{ inputs.use_oidc }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
